@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <limits>
+#include <string>
 
 # define RESET			"\e[0m"
 # define CYAN			"\e[0;36m"
@@ -9,11 +10,11 @@ template <typename K, typename V>
 class interval_map 
 {
 
-public:
+private:
     std::map<K, V> m_map;
-    V m_valBegin;
 
-// public:
+public:
+    V m_valBegin;
     // Constructor to initialize the initial value
     interval_map(const V& initialValue) : m_valBegin(initialValue) 
     {
@@ -55,7 +56,18 @@ public:
             m_map[i] = value;
         }
     }
+
+    std::map<K, V>& getMap() 
+    {
+        return m_map;
+    }
+
+
 };
+
+
+
+// MAIN TEST CASES.
 
 int main() 
 {
@@ -65,7 +77,8 @@ int main()
     map.assign(7, 9, 'c');
     map.assign(9, 13, 'c');
 
-    for (auto it = map.m_map.begin(); it != map.m_map.end(); ++it)
+    std::map<int, char>testMap = map.getMap();
+    for (auto it = testMap.begin(); it != testMap.end(); ++it)
     {
         std::cout << it->first << it->second << std::endl;
     }
