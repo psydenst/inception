@@ -12,8 +12,9 @@ class interval_map
 {
 
 private:
-    std::map<K, V> m_map;
-
+	friend void IntervalMapTest();
+	V m_valBegin;
+	std::map<K,V> m_map;
 public:
     V m_valBegin;
     // Constructor to initialize the initial value
@@ -52,6 +53,7 @@ public:
             std::cerr << LILAC << "Consecutive values. Disrespects Canonical Form" << RESET << std::endl;
             return;
         }
+        // Populate the map positions with value
         for (auto i = k_begin; i < k_end; ++i) 
         {
             m_map[i] = value;
