@@ -1,9 +1,2 @@
-# Ignore temporary files and directories
-tmp*
-temp/
-logs/
-
-# Ignore specific files
-*.log
-.DS_Store
-
+.git
+.env

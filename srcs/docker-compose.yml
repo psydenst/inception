@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   nginx:
@@ -10,12 +10,12 @@ services:
       - wordpress
     ports:
       - "443:443"
-    networks:
-      - inception
     volumes:
       - ./requirements/nginx/conf/:/etc/nginx/http.d/
       - ./requirements/nginx/tools:/etc/nginx/ssl/
-      - wp-volume:/var/www/
+      - wordpress_data:/var/www/
+    networks:
+      - inception
     restart: always
 
   mariadb:
@@ -24,44 +24,44 @@ services:
       dockerfile: requirements/mariadb/Dockerfile
       args:
         DB_NAME: ${DB_NAME}
-        DB_USER: ${DB_USER}
         DB_PASS: ${DB_PASS}
+        DB_USER: ${DB_USER}
+        DB_ROOT: ${DB_ROOT}
     container_name: mariadb
     ports:
       - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
     networks:
       - inception
-    volumes:
-      - db-volume:/var/lib/mysql
     restart: always
-
   wordpress:
     build:
       context: .
       dockerfile: requirements/wordpress/Dockerfile
-    environment:
-      DB_NAME: ${DB_NAME}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
+      args:
+        DB_NAME: ${DB_NAME}
+        DB_USER: ${DB_USER}
+        DB_PASS: ${DB_PASS}
     container_name: wordpress
     depends_on:
       - mariadb
     restart: always
-    ports:
-      - 9000
+    ports: 
+      - "9000:9000"
     networks:
       - inception
     volumes:
-      - wp-volume:/var/www/
+      - wordpress_data:/var/www/
 
 volumes:
-  wp-volume:
+  wordpress_data:
     driver_opts:
       o: bind
       type: none
       device: /home/${USER}/data/wordpress
 
-  db-volume:
+  mariadb_data:
     driver_opts:
       o: bind
       type: none
