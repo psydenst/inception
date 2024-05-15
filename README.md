@@ -17,4 +17,4 @@ PHP-fm on 9000 port <br>
 MariaDB on 3306 port <br>
 
 ### Attention
-<b>You need to define the .env file before to run!</b>
+<b>You need to define the .env file before running!</b>
